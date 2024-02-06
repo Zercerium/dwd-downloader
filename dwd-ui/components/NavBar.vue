@@ -70,13 +70,4 @@ const navigation = ref([
     route: "/settings",
   },
 ]);
-// { name: "Home", to: "/", icon: ["fas", "house"] },
-//   { name: "Climate", to: "/climate", icon: ["fas", "temperature-half"] },
-//   { name: "Precipitation", to: "/precipitation", icon: ["fas", "droplet"] },
-//   { name: "Radolan", to: "/radolan", icon: ["fas", "globe"] },
-//   {
-//     name: "Evaporation",
-//     to: "/evaporation",
-//     icon: ["fas", "arrow-up-from-ground-water"],
-//   },
 </script>

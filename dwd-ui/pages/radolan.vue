@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Textarea from "primevue/textarea";
-
 const store = useDwdRequestFormStore();
 
 const resolutions: { label: string; idStr: RadolanResolution }[] = [
