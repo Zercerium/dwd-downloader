@@ -1,0 +1,15 @@
+{
+  "$schema": "./schemas/desktop-schema.json",
+  "identifier": "main-capability",
+  "description": "Capability for the main window",
+  "windows": ["main"],
+  "permissions": [
+    "app:default",
+    "updater:default",
+    "dialog:allow-message",
+    "store:allow-set",
+    "store:allow-get",
+    "event:default",
+    "dialog:allow-save"
+  ]
+}

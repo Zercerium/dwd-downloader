@@ -1,0 +1,149 @@
+.
+├── climate_environment
+│   └── CDC
+│       ├── grids_germany
+│       │   ├── 5_minutes
+│       │   │   └── radolan
+│       │   │       ├── recent
+│       │   │       │   ├── YW-230701.tar.gz
+│       │   │       │   ├── YW-230702.tar
+│       │   │       │   ├── YW-230703.tar.gz
+│       │   │       │   ├── YW-231117.tar.gz
+│       │   │       │   ├── YW-231118.tar.gz
+│       │   │       │   └── YW-231119.tar.gz
+│       │   │       └── reproc
+│       │   │           └── 2017_002
+│       │   │               └── bin
+│       │   │                   ├── 2022
+│       │   │                   │   ├── YW2017.002_202211.tar
+│       │   │                   │   └── YW2017.002_202212.tar
+│       │   │                   └── 2023
+│       │   │                       └── YW2017.002_202301.tar
+│       │   ├── daily
+│       │   │   ├── evapo_p
+│       │   │   │   ├── grids_germany_daily_evapo_p_202210.tgz
+│       │   │   │   ├── grids_germany_daily_evapo_p_202211.tgz
+│       │   │   │   ├── grids_germany_daily_evapo_p_202212.tgz
+│       │   │   │   ├── grids_germany_daily_evapo_p_202301.tgz
+│       │   │   │   └── grids_germany_daily_evapo_p_202302.tgz
+│       │   │   ├── evapo_r
+│       │   │   │   └── grids_germany_daily_evapo_r_202212.tgz
+│       │   │   └── radolan
+│       │   │       ├── historical
+│       │   │       │   └── bin
+│       │   │       │       ├── 2008
+│       │   │       │       │   └── SF-200812.tar.gz
+│       │   │       │       ├── 2009
+│       │   │       │       │   └── SF200901.tar.gz
+│       │   │       │       └── 2022
+│       │   │       │           └── SF202212.tar.gz
+│       │   │       └── recent
+│       │   │           └── bin
+│       │   │               ├── raa01-sf_10000-2301010050-dwd---bin.gz
+│       │   │               ├── raa01-sf_10000-2301010150-dwd---bin.gz
+│       │   │               ├── raa01-sf_10000-2301010250-dwd---bin.gz
+│       │   │               ├── raa01-sf_10000-2301010350-dwd---bin.gz
+│       │   │               ├── raa01-sf_10000-2301010450-dwd---bin.gz
+│       │   │               ├── raa01-sf_10000-2301010550-dwd---bin.gz
+│       │   │               └── raa01-sf_10000-2301010650-dwd---bin.gz
+│       │   ├── hourly
+│       │   │   └── radolan
+│       │   │       ├── historical
+│       │   │       │   └── bin
+│       │   │       │       └── 2022
+│       │   │       │           ├── RW202201.tar.gz
+│       │   │       │           └── RW202211.tar.gz
+│       │   │       ├── recent
+│       │   │       │   └── bin
+│       │   │       │       ├── raa01-rw_10000-2301010050-dwd---bin.gz
+│       │   │       │       ├── raa01-rw_10000-2301010150-dwd---bin.gz
+│       │   │       │       ├── raa01-rw_10000-2301010250-dwd---bin.gz
+│       │   │       │       ├── raa01-rw_10000-2301010350-dwd---bin.gz
+│       │   │       │       ├── raa01-rw_10000-2311201630-dwd---bin.gz
+│       │   │       │       ├── raa01-rw_10000-2311201640-dwd---bin.gz
+│       │   │       │       ├── raa01-rw_10000-2311201650-dwd---bin.gz
+│       │   │       │       └── raa01-rw_10000-2311201700-dwd---bin.gz
+│       │   │       └── reproc
+│       │   │           └── 2017_002
+│       │   │               └── bin
+│       │   │                   ├── 2022
+│       │   │                   │   ├── RW2017.002_202211.tar.gz
+│       │   │                   │   └── RW2017.002_202212.tar.gz
+│       │   │                   └── 2023
+│       │   │                       └── RW2017.002_202301.tar.gz
+│       │   └── monthly
+│       │       ├── evapo_p
+│       │       │   └── grids_germany_monthly_evapo_p_202212.asc.gz
+│       │       └── evapo_r
+│       │           └── grids_germany_monthly_evapo_r_202212.asc.gz
+│       └── observations_germany
+│           └── climate
+│               ├── 10_minutes
+│               │   └── precipitation
+│               │       ├── historical
+│               │       │   ├── 10minutenwerte_nieder_00078_20041011_20091231_hist.zip
+│               │       │   ├── 10minutenwerte_nieder_00078_20100101_20191231_hist.zip
+│               │       │   └── 10minutenwerte_nieder_00078_20200101_20221231_hist.zip
+│               │       ├── now
+│               │       │   └── 10minutenwerte_nieder_00078_now.zip
+│               │       └── recent
+│               │           └── 10minutenwerte_nieder_00078_akt.zip
+│               ├── 1_minute
+│               │   └── precipitation
+│               │       ├── historical
+│               │       │   ├── 2021
+│               │       │   │   └── 1minutenwerte_nieder_00020_20211201_20211231_hist.zip
+│               │       │   └── 2022
+│               │       │       ├── 1minutenwerte_nieder_00020_20220101_20220131_hist.zip
+│               │       │       ├── 1minutenwerte_nieder_00020_20220201_20220228_hist.zip
+│               │       │       ├── 1minutenwerte_nieder_00020_20220301_20220331_hist.zip
+│               │       │       └── 1minutenwerte_nieder_00020_20221201_20221231_hist.zip
+│               │       ├── now
+│               │       │   └── 1minutenwerte_nieder_00020_now.zip
+│               │       └── recent
+│               │           └── 1minutenwerte_nieder_00020_akt.zip
+│               ├── 5_minutes
+│               │   └── precipitation
+│               │       ├── historical
+│               │       │   └── 2008
+│               │       │       ├── 5minutenwerte_nieder_00020_20080301_20080331_hist.zip
+│               │       │       └── 5minutenwerte_nieder_00020_20080401_20080430_hist.zip
+│               │       ├── now
+│               │       │   └── 5minutenwerte_nieder_00020_now.zip
+│               │       └── recent
+│               │           └── 5minutenwerte_nieder_00020_akt.zip
+│               ├── annual
+│               │   └── kl
+│               │       ├── historical
+│               │       │   ├── jahreswerte_KL_00044_19710301_20221231_hist.zip
+│               │       │   ├── jahreswerte_KL_00061_19750701_19780831_hist.zip
+│               │       │   └── jahreswerte_KL_04271_19340101_20221231_hist.zip
+│               │       └── recent
+│               │           ├── jahreswerte_KL_00044_akt.zip
+│               │           └── jahreswerte_KL_04271_akt.zip
+│               ├── daily
+│               │   └── kl
+│               │       ├── historical
+│               │       │   ├── tageswerte_KL_00001_19370101_19860630_hist.zip
+│               │       │   └── tageswerte_KL_04271_19470101_20221231_hist.zip
+│               │       └── recent
+│               │           ├── tageswerte_KL_00011_akt.zip
+│               │           └── tageswerte_KL_04271_akt.zip
+│               ├── hourly
+│               │   └── precipitation
+│               │       ├── historical
+│               │       │   └── stundenwerte_RR_00164_19950901_20221231_hist.zip
+│               │       └── recent
+│               │           └── stundenwerte_RR_00164_akt.zip
+│               └── monthly
+│                   └── kl
+│                       ├── historical
+│                       │   ├── monatswerte_KL_00001_19310101_19860630_hist.zip
+│                       │   ├── monatswerte_KL_00044_19710301_20221231_hist.zip
+│                       │   └── monatswerte_KL_04271_19340101_20221231_hist.zip
+│                       └── recent
+│                           ├── monatswerte_KL_00044_akt.zip
+│                           └── monatswerte_KL_04271_akt.zip
+└── files.txt
+
+74 directories, 73 files

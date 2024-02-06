@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  caddy:
+    image: caddy:alpine
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      # - ./data:/data
+      # - ./config:/config
+      - ../ftp_data:/static
+    environment:
+      - TZ=Europe/Amsterdam
