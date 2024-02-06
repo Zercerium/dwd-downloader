@@ -23,7 +23,7 @@ fn test_daily() {
         },
     };
     let data = ClimateProduct.download(request);
-    let response = climate_data_to_string(data, resolution);
+    let response = climate_data_to_string(data, &resolution);
 
     let assert = r"STATIONS_ID;MESS_DATUM;QN_3;  FX;  FM;QN_4; RSK;RSKF; SDK;SHK_TAG;  NM; VPM;  PM; TMK; UPM; TXK; TNK; TGK;eor
        4271;20221225;    3;   8.7;   3.5;    3;   4.6;   6;    0.000;   0;   7.0;   8.5; 1012.31;    5.4;   95.13;    7.2;    2.7;    2.2;eor
@@ -56,7 +56,7 @@ fn test_monthly() {
             },
         },
     });
-    let response = climate_data_to_string(data, resolution);
+    let response = climate_data_to_string(data, &resolution);
 
     let assert = r"STATIONS_ID;MESS_DATUM_BEGINN;MESS_DATUM_ENDE;QN_4;MO_N;MO_TT;MO_TX;MO_TN;MO_FK;MX_TX;MX_FX;MX_TN;MO_SD_S;QN_6;MO_RR;MX_RS;eor
          44;20220301;20220331;    3;  -999;   5.90;   11.87;    0.25;-999;  18.9;-999;  -3.3; 234.83;    3;    21.2;   11.8;eor
@@ -92,7 +92,7 @@ fn test_annual() {
             },
         },
     });
-    let response = climate_data_to_string(data, resolution);
+    let response = climate_data_to_string(data, &resolution);
 
     let assert = r"STATIONS_ID;MESS_DATUM_BEGINN;MESS_DATUM_ENDE;QN_4;JA_N;JA_TT;JA_TX;JA_TN;JA_FK;JA_SD_S;JA_MX_FX;JA_MX_TX;JA_MX_TN;QN_6;JA_RR;JA_MX_RS;eor
          44;20200101;20201231;   10;  -999;  10.89;   15.42;    6.36;-999;-999;-999;  35.0;  -4.9;-999;-999;-999;eor
