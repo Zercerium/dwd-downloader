@@ -1,6 +1,4 @@
-import path from "path";
-
-// import daisyui from "daisyui";
+// import path from "path";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -19,7 +17,7 @@ export default defineNuxtConfig({
   },
   primevue: {
     options: { unstyled: true, ripple: true },
-    importPT: { as: "Wind", from: path.resolve(__dirname, "./presets/wind/") }, // import and apply preset
+    importPT: { as: "Wind", from: "~/presets/wind/" }, // import and apply preset
     components: {
       exclude: ["Editor", "Chart"],
     },
