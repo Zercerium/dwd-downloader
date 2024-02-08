@@ -1,10 +1,14 @@
 use time::{
-    format_description::FormatItem,
-    macros::{format_description, time},
+    format_description::{well_known::iso8601, FormatItem},
+    macros::format_description,
     Date, PrimitiveDateTime, Time,
 };
 
-use super::interval::Interval;
+pub fn parse_yyyymm(s: &str) -> Result<Date, ()> {
+    let year = s[..4].parse().unwrap();
+    let month: u8 = s[4..].parse().unwrap();
+    Date::from_calendar_date(year, month.try_into().unwrap(), 1).map_err(|_| ())
+}
 
 // TODO Error Handling
 pub fn parse_yyyymmdd(s: &str) -> Result<Date, ()> {
@@ -45,4 +49,9 @@ pub fn format_time_colon(date: PrimitiveDateTime) -> String {
 pub fn format_date_american(date: PrimitiveDateTime) -> String {
     let format = format_description!("[month]/[day]/[year]");
     date.format(format).unwrap()
+}
+
+/// MM/DD/JJJJ
+pub fn format_date_iso(date: Date) -> String {
+    date.format(&iso8601::Iso8601::DATE).unwrap()
 }

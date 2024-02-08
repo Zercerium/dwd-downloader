@@ -49,7 +49,7 @@ function assemble_data_type(): Product {
           <label>Coordinates</label>
           <Textarea
             v-model="store.storage.coordinates"
-            class="font-mono"
+            class="!font-mono"
             rows="5"
             cols="30"
             :placeholder="'200,200\n200,201\n201,200\n201,201'"

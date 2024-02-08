@@ -79,7 +79,7 @@ impl dwd_source::Sources for PrecipitationCommonRequestData {
 
 pub fn data_to_together(records: PrecipitationResponse) -> String {
     let mut string = String::new();
-    let header = vec!["STATIONS_ID", "MESS_DATUM", "RS"];
+    let header = ["STATIONS_ID", "MESS_DATUM", "RS"];
     string.push_str(header.join("\t").as_str());
     string.push('\n');
 
@@ -98,7 +98,7 @@ pub fn data_to_together(records: PrecipitationResponse) -> String {
 
 pub fn data_to_separated(records: PrecipitationResponse) -> String {
     let mut string = String::new();
-    let header = vec!["Station", "Date", "Time", "Value"];
+    let header = ["Station", "Date", "Time", "Value"];
     string.push_str(header.join("\t").as_str());
     string.push('\n');
 
@@ -126,7 +126,7 @@ impl dwd_source::DwdProduct for Product {
     fn downloadx(&self, request: Self::Request) -> Self::Response {
         PrecipitationResponse {
             station: request.station.clone(),
-            records: self.download(request),
+            records: self.download(&request),
         }
     }
 }

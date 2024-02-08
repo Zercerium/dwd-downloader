@@ -22,7 +22,7 @@ fn test_daily() {
             },
         },
     };
-    let data = ClimateProduct.download(request);
+    let data = ClimateProduct.download(&request);
     let response = climate_data_to_string(data, &resolution);
 
     let assert = r"STATIONS_ID;MESS_DATUM;QN_3;  FX;  FM;QN_4; RSK;RSKF; SDK;SHK_TAG;  NM; VPM;  PM; TMK; UPM; TXK; TNK; TGK;eor
@@ -46,7 +46,7 @@ fn test_daily() {
 fn test_monthly() {
     common::setup();
     let resolution = ClimateResolution::ClimateMonthly;
-    let data = ClimateProduct.download(ClimateCommonRequestData {
+    let data = ClimateProduct.download(&ClimateCommonRequestData {
         station: "00044".to_string(),
         resolution,
         common: CommonRequestData {
@@ -82,7 +82,7 @@ fn test_monthly() {
 fn test_annual() {
     common::setup();
     let resolution = ClimateResolution::ClimateAnnual;
-    let data = ClimateProduct.download(ClimateCommonRequestData {
+    let data = ClimateProduct.download(&ClimateCommonRequestData {
         station: "00044".to_string(),
         resolution,
         common: CommonRequestData {

@@ -5,6 +5,7 @@ use crate::{
     util::{
         self,
         download::download_text,
+        file::File,
         interval::Interval,
         regex::{extract_interval_d8_d8, links_in_text, year_links_in_text},
         time::parse_yyyymmddhhmm,
@@ -53,8 +54,8 @@ impl dwd_source::DwdSource for PrecipitationMin5Historical {
         links
     }
 
-    fn extract_data(&self, body: bytes::Bytes) -> Vec<Self::Record> {
-        let bytes = util::compression::zip::extract_file(body, "produkt");
+    fn extract_data(&self, _request_data: &Self::RequestData, file: File) -> Vec<Self::Record> {
+        let bytes = util::compression::zip::extract_file(file.data, "produkt");
         let data = String::from_utf8(bytes).unwrap();
         data.lines()
             .skip(1)
@@ -93,8 +94,8 @@ impl dwd_source::DwdSource for PrecipitationMin5Recent {
             .collect::<Vec<_>>()
     }
 
-    fn extract_data(&self, body: bytes::Bytes) -> Vec<Self::Record> {
-        let bytes = util::compression::zip::extract_file(body, "produkt");
+    fn extract_data(&self, _request_data: &Self::RequestData, file: File) -> Vec<Self::Record> {
+        let bytes = util::compression::zip::extract_file(file.data, "produkt");
         let data = String::from_utf8(bytes).unwrap();
         data.lines()
             .skip(1)
@@ -133,8 +134,8 @@ impl dwd_source::DwdSource for PrecipitationMin5Now {
             .collect::<Vec<_>>()
     }
 
-    fn extract_data(&self, body: bytes::Bytes) -> Vec<Self::Record> {
-        let bytes = util::compression::zip::extract_file(body, "produkt");
+    fn extract_data(&self, _request_data: &Self::RequestData, file: File) -> Vec<Self::Record> {
+        let bytes = util::compression::zip::extract_file(file.data, "produkt");
         let data = String::from_utf8(bytes).unwrap();
         data.lines()
             .skip(1)

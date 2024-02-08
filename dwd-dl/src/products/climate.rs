@@ -80,7 +80,7 @@ impl DwdProduct for ClimateProduct {
     type Response = Vec<ClimateRecord>;
 
     fn downloadx(&self, request: Self::Request) -> Self::Response {
-        self.download(request)
+        self.download(&request)
     }
 }
 

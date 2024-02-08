@@ -1,7 +1,4 @@
-use time::{
-    macros::{date, time},
-    Date, PrimitiveDateTime, Time,
-};
+use time::{macros::time, Date, PrimitiveDateTime, Time};
 
 use super::time::{parse_yyyymmdd, parse_yyyymmddhhmm};
 
@@ -31,6 +28,10 @@ where
 
     pub fn end(&self) -> &T {
         &self.end
+    }
+
+    pub fn contains(&self, other: &T) -> bool {
+        self.start <= *other && *other < self.end
     }
 }
 
@@ -100,5 +101,23 @@ impl From<Interval<Date>> for Interval<PrimitiveDateTime> {
         let start = PrimitiveDateTime::new(*interval.start(), Time::MIDNIGHT);
         let end = PrimitiveDateTime::new(*interval.end(), time!(23:59:59.999_999_999));
         Interval::new(start, end).unwrap()
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use time::macros::date;
+
+    #[test]
+    fn test_contains() {
+        let date = date!(2022 - 11 - 26);
+        let interval = Interval::new(date!(2022 - 11 - 26), date!(2022 - 11 - 26)).unwrap();
+        let res = interval.contains(&date);
+        assert!(!res);
+
+        let interval = Interval::new(date!(2022 - 11 - 26), date!(2022 - 11 - 27)).unwrap();
+        let res = interval.contains(&date);
+        assert!(res);
     }
 }

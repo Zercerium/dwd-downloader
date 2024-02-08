@@ -3,7 +3,8 @@ use std::fmt::Debug;
 use time::PrimitiveDateTime;
 
 use crate::util::{
-    download::{create_client, download_body},
+    download::{create_client, download_body, download_file},
+    file::File,
     interval::{Interval, Overlaps},
 };
 
@@ -41,7 +42,7 @@ pub trait DwdSource {
 
     fn urls(&self, request_data: &Self::RequestData) -> Vec<UrlTimeIntervall>;
 
-    fn extract_data(&self, body: bytes::Bytes) -> Vec<Self::Record>;
+    fn extract_data(&self, request_data: &Self::RequestData, file: File) -> Vec<Self::Record>;
 
     fn send(&self, request_data: &Self::RequestData) -> Vec<Self::Record> {
         let client = create_client();
@@ -54,8 +55,8 @@ pub trait DwdSource {
                     .map_or(true, |i| i.overlaps(&request_data.common().timespan))
             })
             .inspect(|x| println!("FILTER: {:?}", x.url))
-            .map(|url| download_body(&url.url, Some(&client)))
-            .flat_map(|body| self.extract_data(body))
+            .map(|url| download_file(&url.url, Some(&client)))
+            .flat_map(|file| self.extract_data(request_data, file))
             // .inspect(|x| println!("{:?}", x.timespan()))
             .skip_while(|d| d.timespan().start < request_data.common().timespan.start)
             .take_while(|d| d.timespan().start < request_data.common().timespan.end)
@@ -69,7 +70,7 @@ pub trait DwdProduct {
 
     fn download(
         &self,
-        request: Self::Request,
+        request: &Self::Request,
     ) -> Vec<<<Self as DwdProduct>::Request as Sources>::Record> {
         let mut last_timestamp = None;
         let mut records = Vec::new();

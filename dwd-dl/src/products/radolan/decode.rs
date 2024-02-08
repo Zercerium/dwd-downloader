@@ -17,7 +17,7 @@ pub struct RadolanFile<'a> {
 
 impl<'a> RadolanFile<'a> {
     pub fn new(file: &'a [u8]) -> Self {
-        let header: Vec<_> = file.iter().map(|&b| b).take_while(|&b| b != 0x03).collect();
+        let header: Vec<_> = file.iter().copied().take_while(|&b| b != 0x03).collect();
 
         let header_end = file.iter().position(|b| *b == 0x03).unwrap();
         let header_str = String::from_utf8(header).unwrap();
@@ -34,8 +34,8 @@ impl<'a> RadolanFile<'a> {
             .iter()
             .map(|p| {
                 let offset = offset_bottom_left_1_1(
-                    p.column,
-                    p.row,
+                    p.x,
+                    p.y,
                     self.header.dimension.rows,
                     self.header.dimension.columns,
                 ) * 2;
@@ -109,7 +109,7 @@ pub enum Produktkennung {
 impl FromStr for Header {
     type Err = Box<dyn Error>;
 
-    fn from_str<'a>(s: &'a str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
         let (s, produktkennung) = parse_produktkennung(s).unwrap();
         let (s, (datetime, location)) = parse_datetime_and_location(s).unwrap();
         let (s, product_length) = parse_product_length(s).unwrap();
@@ -165,7 +165,7 @@ fn parse_datetime_and_location(input: &str) -> IResult<&str, (PrimitiveDateTime,
     let (input, year) = take(2usize)(input)?;
 
     let datetime = &format!("20{year}-{month}-{day}T{hour}:{minute}");
-    let datetime = PrimitiveDateTime::parse(&datetime, &Iso8601::DEFAULT).unwrap();
+    let datetime = PrimitiveDateTime::parse(datetime, &Iso8601::DEFAULT).unwrap();
     Ok((input, (datetime, location.to_string())))
 }
 
@@ -261,9 +261,9 @@ fn parse_radar_locations(input: &str) -> IResult<&str, Vec<String>> {
     let (input, radar_locations) = take(length)(input)?;
     let radar_locations = radar_locations
         .trim()
-        .strip_prefix("<")
+        .strip_prefix('<')
         .unwrap()
-        .strip_suffix(">")
+        .strip_suffix('>')
         .unwrap()
         .split(',')
         .map(|s| s.to_string())
@@ -281,9 +281,9 @@ fn parse_radar_location_contributions(input: &str) -> IResult<&str, Option<Vec<(
     let (input, radar_locations) = take(length)(input)?;
     let radar_locations = radar_locations
         .trim()
-        .strip_prefix("<")
+        .strip_prefix('<')
         .unwrap()
-        .strip_suffix(">")
+        .strip_suffix('>')
         .unwrap()
         .split(',')
         .map(|s| {

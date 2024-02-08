@@ -4,7 +4,7 @@ use dwd_dl::{
     dwd_source::{CommonRequestData, DwdProduct},
     products::{
         climate::{self, ClimateCommonRequestData, ClimateResolution},
-        evaporation::{self, EvaporationResolution},
+        evaporation::{self, EvaporationRequest, EvaporationResolution},
         precipitation::{self, PrecipitationCommonRequestData, PrecipitationResolution},
         radolan::{self, RadolanResolution},
     },
@@ -87,6 +87,32 @@ impl TryInto<PrecipitationCommonRequestData> for UniversalRequest {
     }
 }
 
+impl TryInto<EvaporationRequest> for UniversalRequest {
+    type Error = ();
+
+    fn try_into(self) -> Result<EvaporationRequest, Self::Error> {
+        match self.product {
+            Product::Evaporation(o) => Ok(EvaporationRequest {
+                common: CommonRequestData {
+                    timespan: dwd_dl::util::interval::Interval {
+                        start: time::PrimitiveDateTime::parse(&self.start, &Iso8601::DEFAULT)
+                            .map_err(|_| ())?,
+                        end: time::PrimitiveDateTime::parse(&self.end, &Iso8601::DEFAULT)
+                            .map_err(|_| ())?,
+                    },
+                },
+                coordinates: self
+                    .coordinates
+                    .lines()
+                    .map(|s| s.parse().unwrap())
+                    .collect(),
+                resolution: o.resolution,
+            }),
+            _ => Err(()),
+        }
+    }
+}
+
 #[derive(Deserialize, Type, Debug, Clone)]
 pub enum Product {
     Climate(ClimateOptions),
@@ -160,12 +186,16 @@ pub fn dwd_request(request: UniversalRequest) -> String {
         //     let mut writer = std::io::BufWriter::new(file);
         //     writer.write_all(&data).unwrap();
         // }
-        // Product::Evaporation(o) => {
-        //     let data = evaporation::EvaporationProduct.download(request.station, o.resolution);
-        //     let response = evaporation::evaporation_data_to_string(data, o.resolution);
-        //     let mut writer = std::io::BufWriter::new(file);
-        //     writer.write_all(response.as_bytes()).unwrap();
-        // }
+        Product::Evaporation(o) => {
+            let request: EvaporationRequest = request.clone().try_into().unwrap();
+            let data = evaporation::Product.downloadx(request);
+
+            let formatter = o.format.format_method();
+            let response = formatter(data);
+
+            let mut writer = std::io::BufWriter::new(file);
+            writer.write_all(response.as_bytes()).unwrap();
+        }
         _ => todo!(),
     }
 

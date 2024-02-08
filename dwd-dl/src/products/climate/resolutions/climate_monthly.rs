@@ -5,6 +5,7 @@ use crate::{
     util::{
         compression::zip,
         download::download_text,
+        file::File,
         regex::{extract_interval_d8_d8, links_in_text},
     },
 };
@@ -39,8 +40,8 @@ impl dwd_source::DwdSource for ClimateMonthlyHistorical {
             .collect::<Vec<_>>()
     }
 
-    fn extract_data(&self, body: bytes::Bytes) -> Vec<Self::Record> {
-        let bytes = zip::extract_file(body, "produkt");
+    fn extract_data(&self, _request_data: &Self::RequestData, file: File) -> Vec<Self::Record> {
+        let bytes = zip::extract_file(file.data, "produkt");
         let data = String::from_utf8(bytes).unwrap();
         data.lines()
             .skip(1)
@@ -79,8 +80,8 @@ impl dwd_source::DwdSource for ClimateMonthlyRecent {
             .collect::<Vec<_>>()
     }
 
-    fn extract_data(&self, body: bytes::Bytes) -> Vec<Self::Record> {
-        let bytes = zip::extract_file(body, "produkt");
+    fn extract_data(&self, _request_data: &Self::RequestData, file: File) -> Vec<Self::Record> {
+        let bytes = zip::extract_file(file.data, "produkt");
         let data = String::from_utf8(bytes).unwrap();
         data.lines()
             .skip(1)

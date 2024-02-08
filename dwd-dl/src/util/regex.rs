@@ -1,8 +1,6 @@
 use once_cell::sync::Lazy;
 use regex::Regex;
-use time::{macros::time, Date, PrimitiveDateTime};
-
-use crate::util::time::parse_yyyymmdd_into_date_time;
+use time::Date;
 
 use super::interval::Interval;
 
@@ -60,6 +58,16 @@ pub fn extract_interval_d8_d8(s: &str) -> Result<Interval<Date>, ()> {
     static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r"(?P<start>\d{8})_(?P<end>\d{8})").unwrap());
     let cap = RE.captures(s).ok_or(())?;
     Ok(Interval::<Date>::parse_str(&cap["start"], &cap["end"]))
+}
+
+pub fn extract_d6(s: &str) -> Result<&str, ()> {
+    static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r"\d{6}").unwrap());
+    Ok(RE.find(s).unwrap().as_str())
+}
+
+pub fn extract_d8(s: &str) -> Result<&str, ()> {
+    static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r"\d{8}").unwrap());
+    Ok(RE.find(s).unwrap().as_str())
 }
 
 #[cfg(test)]
