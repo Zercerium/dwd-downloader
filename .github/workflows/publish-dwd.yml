@@ -34,7 +34,7 @@ jobs:
       - name: install app dependencies and build it
         run: cd dwd-ui && pnpm i && pnpm generate
       # - uses: tauri-apps/tauri-action@v0
-      - uses: tauri-apps/tauri-action@81921ba
+      - uses: tauri-apps/tauri-action@81921ba9d3c8163235d21b262dd0c3ad3fb19029
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
