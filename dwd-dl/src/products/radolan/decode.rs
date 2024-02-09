@@ -1,5 +1,6 @@
 use std::{error::Error, str::FromStr};
 
+use bytes::Bytes;
 use nom::{
     bytes::complete::{tag, take},
     character::complete::digit0,
@@ -10,18 +11,18 @@ use time::{format_description::well_known::Iso8601, PrimitiveDateTime};
 
 use crate::util::point::Point;
 
-pub struct RadolanFile<'a> {
+pub struct RadolanFile {
     pub header: Header,
-    pub data: &'a [u8],
+    pub data: Bytes,
 }
 
-impl<'a> RadolanFile<'a> {
-    pub fn new(file: &'a [u8]) -> Self {
+impl RadolanFile {
+    pub fn new(file: Bytes) -> Self {
         let header: Vec<_> = file.iter().copied().take_while(|&b| b != 0x03).collect();
 
         let header_end = file.iter().position(|b| *b == 0x03).unwrap();
         let header_str = String::from_utf8(header).unwrap();
-        let data = &file[header_end + 1..];
+        let data = file.slice(header_end + 1..);
 
         let header = header_str.parse().unwrap();
 
@@ -60,6 +61,19 @@ pub enum BType {
     Error(u16),        //0010
     Neg(u16),          //0100
     Scope(u16),        //1000
+}
+
+impl BType {
+    pub fn default_f32(&self, precision: u8) -> f32 {
+        let precision = precision as f32;
+        match self {
+            BType::Normal(v) => *v as f32 / precision,
+            BType::Interpolated(v) => *v as f32 / precision,
+            BType::Error(_) => -9999 as f32,
+            BType::Neg(v) => -(*v as f32 / precision),
+            BType::Scope(_) => -9999 as f32,
+        }
+    }
 }
 
 pub fn parse(data: &[u8; 2]) -> BType {

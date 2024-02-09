@@ -5,7 +5,7 @@ use crate::{
     util::{interval::Interval, point::Point},
 };
 
-mod decode;
+pub mod decode;
 pub mod formats;
 mod resolutions;
 

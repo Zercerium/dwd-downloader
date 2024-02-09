@@ -27,17 +27,17 @@ A Downloader for some data from the DWD (Deutscher Wetterdienst)
     - [Min5]()
     - [Min10]()
     - [Hourly]()
-- [radolan](./infos/radolan.md) (WIP)
-    - [Min5]()
-    - [Min5 Reproc2017]()
-    - [Hourly]()
-    - [Hourly Reproc2017]()
-    - [Daily]()
-- [evaporation](./infos/evaporation.md) (WIP)
-    - [DailyP]()
-    - [DailyR]()
-    - [MonthlyP]()
-    - [MonthlyR]()
+- [radolan](./infos/radolan.md)
+    - [Min5](https://opendata.dwd.de/climate_environment/CDC/grids_germany/5_minutes/radolan/recent/)
+    - [Min5 Reproc2017](https://opendata.dwd.de/climate_environment/CDC/grids_germany/5_minutes/radolan/reproc/2017_002/bin/)
+    - [Hourly](https://opendata.dwd.de/climate_environment/CDC/grids_germany/hourly/radolan/)
+    - [Hourly Reproc2017](https://opendata.dwd.de/climate_environment/CDC/grids_germany/hourly/radolan/reproc/2017_002/bin/)
+    - [Daily](https://opendata.dwd.de/climate_environment/CDC/grids_germany/daily/radolan/)
+- [evaporation](./infos/evaporation.md)
+    - [DailyP](https://opendata.dwd.de/climate_environment/CDC/grids_germany/daily/evapo_p/)
+    - [DailyR](https://opendata.dwd.de/climate_environment/CDC/grids_germany/daily/evapo_r/)
+    - [MonthlyP](https://opendata.dwd.de/climate_environment/CDC/grids_germany/monthly/evapo_p/)
+    - [MonthlyR](https://opendata.dwd.de/climate_environment/CDC/grids_germany/monthly/evapo_r/)
 
 # Attributions
 
@@ -46,3 +46,5 @@ App Icon: [Cloud download icons created by Stockes Design - Flaticon](https://ww
 # Development
 
 WIP
+
+Tech Stack: Backend: [Rust](https://www.rust-lang.org), Frontend: [Nuxt](https://nuxt.com) + [Vue](https://vuejs.org) + [Vite](https://vitejs.dev) + [TS](https://www.typescriptlang.org), the glue: [Tauri](https://tauri.app), UI Lib: [Primevue](https://primevue.org)

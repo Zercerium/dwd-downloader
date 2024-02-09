@@ -21,6 +21,10 @@ export const useDwdRequestFormStore = defineStore("dwdRequestForm", () => {
       radolan: {
         format: "Default",
         resolution: "RadolanMin5",
+        format_config: {
+          utc_to_berlin: false,
+          offset: 0,
+        },
       } as RadolanOptions,
       evaporation: {
         format: "Default",
@@ -29,7 +33,8 @@ export const useDwdRequestFormStore = defineStore("dwdRequestForm", () => {
     },
     localStorage,
     {
-      mergeDefaults: true,
+      mergeDefaults: false,
+      deep: true,
     },
   );
 

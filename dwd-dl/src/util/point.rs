@@ -20,11 +20,11 @@ where
 
     /// first row, then column
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let (row, column) = s.split_once(',').ok_or(())?;
+        let (x, y) = s.split_once(',').ok_or(())?;
 
-        let row = row.parse::<U>().map_err(|_| ())?;
-        let column = column.parse::<U>().map_err(|_| ())?;
+        let x = x.parse::<U>().map_err(|_| ())?;
+        let y = y.parse::<U>().map_err(|_| ())?;
 
-        Ok(Self { y: row, x: column })
+        Ok(Self { x, y })
     }
 }

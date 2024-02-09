@@ -6,7 +6,7 @@ use dwd_dl::{
         climate::{self, ClimateCommonRequestData, ClimateResolution},
         evaporation::{self, EvaporationRequest, EvaporationResolution},
         precipitation::{self, PrecipitationCommonRequestData, PrecipitationResolution},
-        radolan::{self, RadolanResolution},
+        radolan::{self, formats::RadolanFormatConfig, RadolanRequest, RadolanResolution},
     },
 };
 use serde::Deserialize;
@@ -113,6 +113,32 @@ impl TryInto<EvaporationRequest> for UniversalRequest {
     }
 }
 
+impl TryInto<RadolanRequest> for UniversalRequest {
+    type Error = ();
+
+    fn try_into(self) -> Result<RadolanRequest, Self::Error> {
+        match self.product {
+            Product::Radolan(o) => Ok(RadolanRequest {
+                common: CommonRequestData {
+                    timespan: dwd_dl::util::interval::Interval {
+                        start: time::PrimitiveDateTime::parse(&self.start, &Iso8601::DEFAULT)
+                            .map_err(|_| ())?,
+                        end: time::PrimitiveDateTime::parse(&self.end, &Iso8601::DEFAULT)
+                            .map_err(|_| ())?,
+                    },
+                },
+                coordinates: self
+                    .coordinates
+                    .lines()
+                    .map(|s| s.parse().unwrap())
+                    .collect(),
+                resolution: o.resolution,
+            }),
+            _ => Err(()),
+        }
+    }
+}
+
 #[derive(Deserialize, Type, Debug, Clone)]
 pub enum Product {
     Climate(ClimateOptions),
@@ -148,6 +174,7 @@ pub struct PrecipitationOptions {
 pub struct RadolanOptions {
     pub resolution: RadolanResolution,
     pub format: radolan::RadolanFormat,
+    pub format_config: RadolanFormatConfig,
 }
 
 #[derive(Deserialize, Type, Debug, Clone, Copy)]
@@ -181,11 +208,16 @@ pub fn dwd_request(request: UniversalRequest) -> String {
             let mut writer = std::io::BufWriter::new(file);
             writer.write_all(response.as_bytes()).unwrap();
         }
-        // Product::Radolan(o) => {
-        //     let data = radolan::RadolanProduct.download(request.station, o.resolution);
-        //     let mut writer = std::io::BufWriter::new(file);
-        //     writer.write_all(&data).unwrap();
-        // }
+        Product::Radolan(o) => {
+            let request: RadolanRequest = request.clone().try_into().unwrap();
+            let data = radolan::Product.downloadx(request);
+
+            let formatter = o.format.format_method();
+            let response = formatter(data, o.format_config);
+
+            let mut writer = std::io::BufWriter::new(file);
+            writer.write_all(response.as_bytes()).unwrap();
+        }
         Product::Evaporation(o) => {
             let request: EvaporationRequest = request.clone().try_into().unwrap();
             let data = evaporation::Product.downloadx(request);
@@ -196,7 +228,6 @@ pub fn dwd_request(request: UniversalRequest) -> String {
             let mut writer = std::io::BufWriter::new(file);
             writer.write_all(response.as_bytes()).unwrap();
         }
-        _ => todo!(),
     }
 
     format!("{}", "success")

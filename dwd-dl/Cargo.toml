@@ -21,6 +21,7 @@ strum_macros = "0.26.1"
 tar = "0.4.40"
 thiserror = "1.0.56"
 time = { workspace = true }
+time-tz = "2.0.0"
 ureq = "2.9.1"
 zip = "0.6.6"
 zune-inflate = { version = "0.2.54", default-features = false, features = [

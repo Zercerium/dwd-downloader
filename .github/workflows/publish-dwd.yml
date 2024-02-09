@@ -33,7 +33,8 @@ jobs:
           workspaces: "./ -> target"
       - name: install app dependencies and build it
         run: cd dwd-ui && pnpm i && pnpm generate
-      - uses: tauri-apps/tauri-action@v0
+      # - uses: tauri-apps/tauri-action@v0
+      - uses: tauri-apps/tauri-action@81921ba
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}

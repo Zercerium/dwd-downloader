@@ -45,7 +45,7 @@ pub fn format_default(evaporation: EvaporationResponse) -> String {
     let mut tmp = Vec::new();
     for (idx, coord) in coords_x.iter().enumerate() {
         for record in &evaporation.records {
-            tmp.push(format!("{:0>3}_{:0>3}", coord.x, coord.y));
+            tmp.push(format!("{:0>4}_{:0>4}", coord.x, coord.y));
             tmp.push(format_date_iso(record.time));
             tmp.push(format!("{:.1}", record.data[idx_table[idx]]));
             str.push_str(&tmp.join("\t"));

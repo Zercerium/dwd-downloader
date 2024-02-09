@@ -70,6 +70,11 @@ pub fn extract_d8(s: &str) -> Result<&str, ()> {
     Ok(RE.find(s).unwrap().as_str())
 }
 
+pub fn extract_d10(s: &str) -> Result<&str, ()> {
+    static RE: Lazy<Regex> = Lazy::new(|| Regex::new(r"\d{10}").unwrap());
+    Ok(RE.find(s).unwrap().as_str())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -24,7 +24,9 @@ export type Product = { Climate: ClimateOptions } | { Precipitation: Precipitati
 
 export type RadolanFormat = "Default" | "SwmmRainfallData"
 
-export type RadolanOptions = { resolution: RadolanResolution; format: RadolanFormat }
+export type RadolanFormatConfig = { utc_to_berlin: boolean; offset: number }
+
+export type RadolanOptions = { resolution: RadolanResolution; format: RadolanFormat; format_config: RadolanFormatConfig }
 
 export type RadolanResolution = "RadolanDaily" | "RadolanHourly" | "RadolanHourlyReproc2017" | "RadolanMin5" | "RadolanMin5Reproc2017"
 

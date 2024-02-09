@@ -44,18 +44,41 @@ function assemble_data_type(): Product {
         </a>
       </p>
     </template>
+
     <template #additionalFormData>
       <div class="sm:col-span-3">
         <div class="flex flex-col gap-2">
           <label>Coordinates</label>
           <Textarea
             v-model="store.storage.coordinates"
-            class="font-mono"
+            class="!font-mono"
             rows="5"
             cols="30"
             :placeholder="'200,200\n200,201\n201,200\n201,201'"
           />
           <small>x,y pairs; one pair per line</small>
+        </div>
+      </div>
+      <div class="sm:col-span-3">
+        <div class="flex flex-col gap-2">
+          <label>Format Config</label>
+          <div class="flex items-center">
+            <Checkbox
+              v-model="store.storage.radolan.format_config.utc_to_berlin"
+              :binary="true"
+            />
+            <label class="ml-2 text-sm">Convert time from UTC to berlin</label>
+          </div>
+          <div class="flex items-center">
+            <InputNumber
+              v-model="store.storage.radolan.format_config.offset"
+              class="w-12 [&_input]:text-center"
+              :ptOptions="{ mergeSections: true, mergeProps: true }"
+              :min="-128"
+              :max="127"
+            />
+            <label class="ml-2 text-sm">Time offset</label>
+          </div>
         </div>
       </div>
     </template>

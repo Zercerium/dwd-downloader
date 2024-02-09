@@ -4,6 +4,8 @@ use time::{
     Date, PrimitiveDateTime, Time,
 };
 
+pub mod timezone;
+
 pub fn parse_yyyymm(s: &str) -> Result<Date, ()> {
     let year = s[..4].parse().unwrap();
     let month: u8 = s[4..].parse().unwrap();
@@ -51,7 +53,13 @@ pub fn format_date_american(date: PrimitiveDateTime) -> String {
     date.format(format).unwrap()
 }
 
-/// MM/DD/JJJJ
+/// YYYY-MM-DD
 pub fn format_date_iso(date: Date) -> String {
     date.format(&iso8601::Iso8601::DATE).unwrap()
+}
+
+/// YYYY-MM-DD
+pub fn format_time_iso(time: Time) -> String {
+    let format = format_description!("[hour]:[minute]");
+    time.format(&format).unwrap()
 }

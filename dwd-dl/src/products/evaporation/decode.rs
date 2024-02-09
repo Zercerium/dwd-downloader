@@ -10,6 +10,11 @@ pub fn decode(data: &str, coordinates: &Vec<Point<usize>>) -> Vec<f32> {
 
 pub fn extract_points(coordinates: &Vec<Point<usize>>, mut lines: Lines<'_>) -> Vec<f32> {
     let coordinates = sort_coordinates_y(&coordinates);
+    // offset top right corner (1,1) but index starts at 0
+    let coordinates = coordinates
+        .iter()
+        .map(|p| Point::new(p.x - 1, p.y - 1))
+        .collect::<Vec<_>>();
 
     let mut res = Vec::new();
     let mut current_coord = Point::new(0, 0);
@@ -30,13 +35,19 @@ pub fn extract_points(coordinates: &Vec<Point<usize>>, mut lines: Lines<'_>) -> 
     res
 }
 
-pub fn sort_coordinates_y(coordinates: &Vec<Point<usize>>) -> Vec<Point<usize>> {
+pub fn sort_coordinates_y<T>(coordinates: &Vec<Point<T>>) -> Vec<Point<T>>
+where
+    T: Ord + Copy,
+{
     let mut res = coordinates.clone();
     res.sort_by(|a, b| a.y.cmp(&b.y).then(a.x.cmp(&b.x)));
     res
 }
 
-pub fn sort_coordinates_x(coordinates: &Vec<Point<usize>>) -> Vec<Point<usize>> {
+pub fn sort_coordinates_x<T>(coordinates: &Vec<Point<T>>) -> Vec<Point<T>>
+where
+    T: Ord + Copy,
+{
     let mut res = coordinates.clone();
     res.sort_by(|a, b| a.x.cmp(&b.x).then(a.y.cmp(&b.y)));
     res
@@ -49,10 +60,10 @@ mod tests {
     #[test]
     fn test_extract_points() {
         let coordinates = vec![
-            Point::new(0, 0),
             Point::new(1, 1),
-            Point::new(2, 1),
-            Point::new(3, 3),
+            Point::new(2, 2),
+            Point::new(3, 2),
+            Point::new(4, 4),
         ];
         let data = "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16";
         let res = extract_points(&coordinates, data.lines());
