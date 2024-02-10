@@ -1,1 +1,16 @@
+version = 1
+
 exclude_patterns = ["dwd-ui/presets/**"]
+
+[[analyzers]]
+name = "javascript"
+
+[analyzers.meta]
+plugins = ["vue"]
+environment = ["browser", "vitest"]
+
+[[analyzers]]
+name = "rust"
+
+[analyzers.meta]
+msrv = "stable"
