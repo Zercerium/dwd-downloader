@@ -1,5 +1,3 @@
-// import path from "path";
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -9,7 +7,6 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxtjs/eslint-module",
     "@vueuse/nuxt",
-    // "nuxt-icon",
     "@nuxt/test-utils/module",
   ],
   eslint: {
@@ -37,8 +34,6 @@ export default defineNuxtConfig({
     "~/assets/css/inter.css",
     "~/assets/css/base.css",
     "primeicons/primeicons.css",
-    // "primevue/resources/themes/aura-light-teal/theme.css",
-    // "primevue/resources/themes/aura-dark-teal/theme.css",
   ],
   devtools: { enabled: true },
   // Enable SSG

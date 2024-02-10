@@ -8,3 +8,4 @@ node_modules
 dist
 presets
 **/gen/schemas/
+bindings.ts

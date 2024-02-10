@@ -2,19 +2,16 @@ import { ask, message } from "@tauri-apps/plugin-dialog";
 import { relaunch } from "@tauri-apps/plugin-process";
 import { check } from "@tauri-apps/plugin-updater";
 
-export async function check_for_updates(show_message: boolean = true) {
+export async function check_for_updates(show_message = true) {
   const update = await check();
 
   const store = useSettingsStore();
   store.last_update_check = Date.now();
 
-  console.log(update);
   if (!update) {
-    // updateText.value = "No updates available";
     if (show_message) {
       await message("nothing to do", "No updates available");
     }
-    return;
   } else {
     const version = update.version;
     const answer = await ask(
@@ -36,7 +33,6 @@ export async function check_for_updates(show_message: boolean = true) {
       }
     }
   }
-  // updateText.value = "Update available";
 }
 
 export function day_over(time: number) {

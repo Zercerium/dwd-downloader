@@ -9,7 +9,6 @@ export const useMiscStore = defineStore("misc_store", () => {
   const build_os: Ref<string> = ref("unknown");
 
   async function init() {
-    console.log("Store: misc_store: init");
     tauri_version.value = await getTauriVersion();
     app_version.value = await getVersion();
 

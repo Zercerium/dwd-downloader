@@ -6,10 +6,8 @@ import { Window } from "@tauri-apps/api/window";
 
 const props = defineProps<{
   title: string;
-  resolutions: any;
-  resolution_selected: any;
-  formats: any;
-  format_selected: any;
+  resolutions: { label: string; idStr: string }[];
+  formats: { label: string; idStr: string }[];
   assemble_data_type: () => Product;
 }>();
 
@@ -26,19 +24,11 @@ function assemble_request(): UniversalRequest {
   return request;
 }
 
-const emit = defineEmits<{
-  "update:resolution_selected": [resolutionSelected: any];
-  "update:format_selected": [formatSelected: any];
-}>();
-
-const resolution_selected = ref(props.resolution_selected);
-watch(resolution_selected, (newValue) => {
-  emit("update:resolution_selected", newValue);
+const resolution_selected = defineModel<string>("resolution_selected", {
+  required: true,
 });
-
-const format_selected = ref(props.format_selected);
-watch(format_selected, (newValue) => {
-  emit("update:format_selected", newValue);
+const format_selected = defineModel<string>("format_selected", {
+  required: true,
 });
 
 type ProgressUpdate = {
@@ -75,7 +65,7 @@ async function request(f: () => UniversalRequest) {
     }
     request.start = start;
     request.end = end;
-    const filename_suggestion = await invoke<String>(
+    const filename_suggestion = await invoke<string>(
       "dwd_filename_suggestion",
       {
         request,

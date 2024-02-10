@@ -34,8 +34,8 @@ impl UniversalRequest {
             Product::Evaporation(_) | Product::Radolan(_) => (),
         }
 
-        let start = self.start.replace(":", "-");
-        let end = self.end.replace(":", "-");
+        let start = self.start.replace(':', "-");
+        let end = self.end.replace(':', "-");
 
         filename.push_str(&format!("_{}_{}", start, end));
 

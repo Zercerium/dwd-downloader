@@ -12,6 +12,6 @@ module.exports = {
   plugins: [],
   rules: {
     "vue/prop-name-casing": ["warn", "snake_case"],
-    "prettier/prettier": ["error", { "endOfLine": "auto" }]
+    "prettier/prettier": ["error", { endOfLine: "auto" }],
   },
 };

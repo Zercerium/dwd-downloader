@@ -73,7 +73,7 @@ function assemble_data_type(): Product {
             <InputNumber
               v-model="store.storage.radolan.format_config.offset"
               class="w-12 [&_input]:text-center"
-              :ptOptions="{ mergeSections: true, mergeProps: true }"
+              :pt-options="{ mergeSections: true, mergeProps: true }"
               :min="-128"
               :max="127"
             />

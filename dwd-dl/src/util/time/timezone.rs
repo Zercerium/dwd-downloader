@@ -1,10 +1,9 @@
 use time::PrimitiveDateTime;
-use time_tz::{timezones, OffsetDateTimeExt, PrimitiveDateTimeExt};
+use time_tz::{timezones, OffsetDateTimeExt};
 
 pub fn convert_utc_to_berlin(datetime: PrimitiveDateTime) -> PrimitiveDateTime {
-    let utc = timezones::db::etc::UTC;
     let berlin = timezones::db::europe::BERLIN;
-    let dt = datetime.assume_timezone_utc(utc);
+    let dt = datetime.assume_utc();
     let converted = dt.to_timezone(berlin);
     PrimitiveDateTime::new(converted.date(), converted.time())
 }

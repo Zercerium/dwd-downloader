@@ -7,7 +7,6 @@ export const useSettingsStore = defineStore("settings", () => {
   const last_update_check: Ref<number> = ref(0);
 
   async function init() {
-    console.log("Store: misc_store: init");
     const store = new Store(".settings.dat");
     await store.get<boolean>("auto_update_check").then((value) => {
       if (value) {

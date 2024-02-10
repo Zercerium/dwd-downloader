@@ -19,7 +19,6 @@ import { day_over } from "./utils/update_check";
 
 const store = useSettingsStore();
 if (store.auto_update_check && day_over(store.last_update_check)) {
-  console.log("Checking for updates on startup");
   check_for_updates(false);
 }
 </script>
