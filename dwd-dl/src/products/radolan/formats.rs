@@ -36,7 +36,7 @@ pub struct RadolanFormatConfig {
 pub fn format_default(evaporation: RadolanResponse, config: RadolanFormatConfig) -> String {
     let header = ["Name", "Date", "Time", "Value"];
     let mut str = header.join("\t");
-    str.push_str("\n");
+    str.push('\n');
 
     let coords = sort_coordinates_y(&evaporation.coordinates);
     let coords_idx = coords
@@ -67,7 +67,7 @@ pub fn format_default(evaporation: RadolanResponse, config: RadolanFormatConfig)
             tmp.push(format_time_iso(time.time()));
             tmp.push(format!("{:.2}", record.data[idx_table[idx]]));
             str.push_str(&tmp.join("\t"));
-            str.push_str("\n");
+            str.push('\n');
             tmp.clear();
         }
     }
@@ -80,7 +80,7 @@ pub fn format_swmm_rainfall_data(
 ) -> String {
     let header = ["Name", "Jahr", "Monat", "Tag", "Stunde", "Minute", "Wert"];
     let mut str = header.join("\t");
-    str.push_str("\n");
+    str.push('\n');
 
     let coords = sort_coordinates_y(&evaporation.coordinates);
     let coords_idx = coords
@@ -116,7 +116,7 @@ pub fn format_swmm_rainfall_data(
 
             tmp.push(format!("{:.2}", record.data[idx_table[idx]]));
             str.push_str(&tmp.join("\t"));
-            str.push_str("\n");
+            str.push('\n');
             tmp.clear();
         }
     }

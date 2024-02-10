@@ -41,13 +41,13 @@ impl dwd_source::DwdSource for Reproc2017_002 {
         for url in urls {
             let html = download_text(&url, None);
             let regex = r"YW2017.002_\d{6}.tar";
-            let current_links = links_in_text(&html, &regex);
+            let current_links = links_in_text(&html, regex);
 
             links.extend(current_links.iter().map(|link| UrlTimeIntervall {
                 url: format!("{}{}", url, link),
                 interval: Some({
                     let date = extract_d6(link).unwrap();
-                    let date = parse_yyyymm(&date).unwrap();
+                    let date = parse_yyyymm(date).unwrap();
                     year_month_to_interval(date)
                 }),
             }));
@@ -58,10 +58,10 @@ impl dwd_source::DwdSource for Reproc2017_002 {
 
     fn extract_data(&self, request_data: &Self::RequestData, file: File) -> Vec<Self::Record> {
         let filter0 = |_: &str| true;
-        let ts = request_data.common().timespan.clone();
+        let ts = request_data.common().timespan;
         let filter1 = move |s: &str| {
             let date = extract_d8(s).unwrap();
-            let date = parse_yyyymmdd(&date).unwrap();
+            let date = parse_yyyymmdd(date).unwrap();
             let file_interval = Interval::new(date, date).unwrap();
             // FIXME: does this work correctly?
             ts.overlaps(&file_interval)

@@ -69,9 +69,9 @@ impl BType {
         match self {
             BType::Normal(v) => *v as f32 / precision,
             BType::Interpolated(v) => *v as f32 / precision,
-            BType::Error(_) => -9999 as f32,
+            BType::Error(_) => -9999_f32,
             BType::Neg(v) => -(*v as f32 / precision),
-            BType::Scope(_) => -9999 as f32,
+            BType::Scope(_) => -9999_f32,
         }
     }
 }

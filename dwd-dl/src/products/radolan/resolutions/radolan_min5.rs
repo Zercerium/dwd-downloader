@@ -9,8 +9,8 @@ use crate::{
         download::download_text,
         file::File,
         interval::Interval,
-        regex::{extract_d10, extract_d6, links_in_text, year_links_in_text},
-        time::{parse_yyyymm, parse_yyyymmdd, parse_yyyymmddhhmm},
+        regex::{extract_d10, extract_d6, links_in_text},
+        time::{parse_yyyymmdd, parse_yyyymmddhhmm},
     },
 };
 
@@ -28,7 +28,7 @@ impl dwd_source::DwdSource for Recent {
 
         let html = download_text(&url, None);
         let regex = r"YW-\d{6}.tar.gz";
-        let links = links_in_text(&html, &regex);
+        let links = links_in_text(&html, regex);
 
         let links = links
             .iter()
@@ -49,7 +49,7 @@ impl dwd_source::DwdSource for Recent {
 
     fn extract_data(&self, request_data: &Self::RequestData, file: File) -> Vec<Self::Record> {
         let filter0 = |_: &str| true;
-        let ts = request_data.common().timespan.clone();
+        let ts = request_data.common().timespan;
         let filter1 = move |s: &str| {
             let date = extract_d10(s).unwrap();
             let date = format!("20{}", date);

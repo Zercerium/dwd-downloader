@@ -37,7 +37,7 @@ impl dwd_source::DwdSource for MonthlyP {
                 url: format!("{}{}", url, link),
                 interval: Some({
                     let date = extract_d6(link).unwrap();
-                    let date = parse_yyyymm(&date).unwrap();
+                    let date = parse_yyyymm(date).unwrap();
                     year_month_to_interval(date)
                 }),
             })

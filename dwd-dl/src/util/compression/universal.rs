@@ -161,7 +161,7 @@ mod test {
             // println!("Filter1: {}", s);
             let regex = regex::Regex::new(r"\d{8}").unwrap();
             let cap = regex.captures(s).unwrap();
-            let date = (&cap[0]).to_string();
+            let date = cap[0].to_string();
             let format = format_description!("[year][month][day]");
             let date = time::Date::parse(&date, &format).unwrap();
 

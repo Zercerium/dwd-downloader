@@ -5,11 +5,11 @@ use crate::util::point::Point;
 // TODO check header, extract no_data values => use an enum
 pub fn decode(data: &str, coordinates: &Vec<Point<usize>>) -> Vec<f32> {
     let lines = data.lines();
-    extract_points(&coordinates, lines)
+    extract_points(coordinates, lines)
 }
 
 pub fn extract_points(coordinates: &Vec<Point<usize>>, mut lines: Lines<'_>) -> Vec<f32> {
-    let coordinates = sort_coordinates_y(&coordinates);
+    let coordinates = sort_coordinates_y(coordinates);
     // offset top right corner (1,1) but index starts at 0
     let coordinates = coordinates
         .iter()

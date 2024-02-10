@@ -28,7 +28,7 @@ impl EvaporationFormat {
 pub fn format_default(evaporation: EvaporationResponse) -> String {
     let header = ["x_y", "Date", "Value"];
     let mut str = header.join("\t");
-    str.push_str("\n");
+    str.push('\n');
 
     let coords = sort_coordinates_y(&evaporation.coordinates);
     let coords_idx = coords
@@ -49,7 +49,7 @@ pub fn format_default(evaporation: EvaporationResponse) -> String {
             tmp.push(format_date_iso(record.time));
             tmp.push(format!("{:.1}", record.data[idx_table[idx]]));
             str.push_str(&tmp.join("\t"));
-            str.push_str("\n");
+            str.push('\n');
             tmp.clear();
         }
     }
@@ -60,7 +60,7 @@ pub fn format_default(evaporation: EvaporationResponse) -> String {
 pub fn format_swmm_rainfall_data(evaporation: EvaporationResponse) -> String {
     let header = ["MM/DD/YYYY", "hh:mm", "Value"];
     let mut str = header.join("\t");
-    str.push_str("\n");
+    str.push('\n');
 
     let time = "00:00";
     let mut tmp = Vec::new();
@@ -69,7 +69,7 @@ pub fn format_swmm_rainfall_data(evaporation: EvaporationResponse) -> String {
         tmp.push(time.into());
         tmp.push(format!("{:.1}", record.data[0]));
         str.push_str(&tmp.join("\t"));
-        str.push_str("\n");
+        str.push('\n');
         tmp.clear();
     }
     str

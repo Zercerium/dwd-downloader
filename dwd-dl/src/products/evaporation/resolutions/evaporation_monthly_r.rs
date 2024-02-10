@@ -2,15 +2,15 @@ use time::{util::days_in_year_month, Date, PrimitiveDateTime};
 
 use crate::{
     base_url,
-    dwd_source::{self, Common, UrlTimeIntervall},
+    dwd_source::{self, UrlTimeIntervall},
     products::evaporation::{decode::decode, EvaporationRequest, Record},
     util::{
         compression::universal::MultiLayerFolder,
         download::download_text,
         file::File,
         interval::Interval,
-        regex::{extract_d6, extract_d8, links_in_text},
-        time::{parse_yyyymm, parse_yyyymmdd},
+        regex::{extract_d6, links_in_text},
+        time::{parse_yyyymm},
     },
 };
 
@@ -37,7 +37,7 @@ impl dwd_source::DwdSource for MonthlyR {
                 url: format!("{}{}", url, link),
                 interval: Some({
                     let date = extract_d6(link).unwrap();
-                    let date = parse_yyyymm(&date).unwrap();
+                    let date = parse_yyyymm(date).unwrap();
                     year_month_to_interval(date)
                 }),
             })

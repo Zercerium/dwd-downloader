@@ -230,7 +230,7 @@ pub fn dwd_request(request: UniversalRequest) -> String {
         }
     }
 
-    format!("{}", "success")
+    "success".to_string()
 }
 
 #[tauri::command]

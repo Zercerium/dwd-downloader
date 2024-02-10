@@ -33,7 +33,7 @@ pub struct Record {
 
 impl Timespan for Record {
     fn timespan(&self) -> Interval<PrimitiveDateTime> {
-        Interval::new(self.time, self.time).unwrap().into()
+        Interval::new(self.time, self.time).unwrap()
     }
 }
 

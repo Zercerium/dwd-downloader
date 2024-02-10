@@ -37,7 +37,7 @@ impl dwd_source::DwdSource for DailyR {
                 url: format!("{}{}", url, link),
                 interval: Some({
                     let date = extract_d6(link).unwrap();
-                    let date = parse_yyyymm(&date).unwrap();
+                    let date = parse_yyyymm(date).unwrap();
                     year_month_to_interval(date)
                 }),
             })
@@ -49,10 +49,10 @@ impl dwd_source::DwdSource for DailyR {
 
     fn extract_data(&self, request_data: &Self::RequestData, file: File) -> Vec<Self::Record> {
         let filter0 = |_: &str| true;
-        let ts = request_data.common().timespan.clone();
+        let ts = request_data.common().timespan;
         let filter1 = move |s: &str| {
             let date = extract_d8(s).unwrap();
-            let date = parse_yyyymmdd(&date).unwrap();
+            let date = parse_yyyymmdd(date).unwrap();
             ts.contains(&date.midnight())
         };
         let filter: Vec<Box<dyn Fn(&str) -> bool>> = vec![Box::new(filter0), Box::new(filter1)];
