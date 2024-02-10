@@ -22,5 +22,3 @@ if (store.auto_update_check && day_over(store.last_update_check)) {
   check_for_updates(false);
 }
 </script>
-
-<style></style>
