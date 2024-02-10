@@ -6,11 +6,11 @@ use super::{gz::decode_gz, tar::Tarball};
 
 pub struct MultiLayerFolder {
     file: File,
-    filters: Vec<Box<dyn Fn(&str) -> bool>>,
+    filters: Vec<Filter>,
 }
 
 impl MultiLayerFolder {
-    pub fn new(file: File, filters: Vec<Box<dyn Fn(&str) -> bool>>) -> Self {
+    pub fn new(file: File, filters: Vec<Filter>) -> Self {
         Self { file, filters }
     }
 }
@@ -21,8 +21,7 @@ impl IntoIterator for MultiLayerFolder {
     type IntoIter = MultiLayerFolderIter;
 
     fn into_iter(self) -> Self::IntoIter {
-        let mut data = Vec::new();
-        data.push(File::new(self.file.name, self.file.data));
+        let data = vec![File::new(self.file.name, self.file.data)];
 
         MultiLayerFolderIter {
             folder: data,
@@ -33,11 +32,13 @@ impl IntoIterator for MultiLayerFolder {
     }
 }
 
+pub type Filter = Box<dyn Fn(&str) -> bool>;
+
 pub struct MultiLayerFolderIter {
     folder: Vec<File>,
     current_layer: usize,
     layer_start_index: Vec<usize>,
-    filters: Vec<Box<dyn Fn(&str) -> bool>>,
+    filters: Vec<Filter>,
 }
 
 impl Iterator for MultiLayerFolderIter {
@@ -180,8 +181,7 @@ mod test {
             interval.contains(&date)
         };
 
-        let filters: Vec<Box<dyn Fn(&str) -> bool>> =
-            vec![Box::new(filter0), Box::new(filter1), Box::new(filter2)];
+        let filters: Vec<Filter> = vec![Box::new(filter0), Box::new(filter1), Box::new(filter2)];
 
         let name = "YW2017.002_202211.tar";
         let file = fs::read(format!(

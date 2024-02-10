@@ -5,7 +5,7 @@ use crate::{
     dwd_source::{self, Common, UrlTimeIntervall},
     products::radolan::{decode::RadolanFile, RadolanRequest, Record},
     util::{
-        compression::universal::MultiLayerFolder,
+        compression::universal::{Filter, MultiLayerFolder},
         download::download_text,
         file::File,
         interval::Interval,
@@ -65,7 +65,7 @@ impl dwd_source::DwdSource for Reproc2017_002 {
             let date = parse_yyyymmddhhmm(&date).unwrap();
             ts.contains(&date)
         };
-        let filter: Vec<Box<dyn Fn(&str) -> bool>> = vec![Box::new(filter0), Box::new(filter1)];
+        let filter: Vec<Filter> = vec![Box::new(filter0), Box::new(filter1)];
         let folder = MultiLayerFolder::new(file, filter);
         let mut records = Vec::new();
 

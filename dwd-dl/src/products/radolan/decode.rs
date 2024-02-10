@@ -30,7 +30,7 @@ impl RadolanFile {
     }
 
     /// returns the values at the given points from the file
-    pub fn extract_points(&self, points: &Vec<Point<u16>>) -> Vec<(Point<u16>, BType)> {
+    pub fn extract_points(&self, points: &[Point<u16>]) -> Vec<(Point<u16>, BType)> {
         points
             .iter()
             .map(|p| {

@@ -3,12 +3,12 @@ use std::str::Lines;
 use crate::util::point::Point;
 
 // TODO check header, extract no_data values => use an enum
-pub fn decode(data: &str, coordinates: &Vec<Point<usize>>) -> Vec<f32> {
+pub fn decode(data: &str, coordinates: &[Point<usize>]) -> Vec<f32> {
     let lines = data.lines();
     extract_points(coordinates, lines)
 }
 
-pub fn extract_points(coordinates: &Vec<Point<usize>>, mut lines: Lines<'_>) -> Vec<f32> {
+pub fn extract_points(coordinates: &[Point<usize>], mut lines: Lines<'_>) -> Vec<f32> {
     let coordinates = sort_coordinates_y(coordinates);
     // offset top right corner (1,1) but index starts at 0
     let coordinates = coordinates
@@ -35,20 +35,20 @@ pub fn extract_points(coordinates: &Vec<Point<usize>>, mut lines: Lines<'_>) -> 
     res
 }
 
-pub fn sort_coordinates_y<T>(coordinates: &Vec<Point<T>>) -> Vec<Point<T>>
+pub fn sort_coordinates_y<T>(coordinates: &[Point<T>]) -> Vec<Point<T>>
 where
     T: Ord + Copy,
 {
-    let mut res = coordinates.clone();
+    let mut res = coordinates.to_vec();
     res.sort_by(|a, b| a.y.cmp(&b.y).then(a.x.cmp(&b.x)));
     res
 }
 
-pub fn sort_coordinates_x<T>(coordinates: &Vec<Point<T>>) -> Vec<Point<T>>
+pub fn sort_coordinates_x<T>(coordinates: &[Point<T>]) -> Vec<Point<T>>
 where
     T: Ord + Copy,
 {
-    let mut res = coordinates.clone();
+    let mut res = coordinates.to_vec();
     res.sort_by(|a, b| a.x.cmp(&b.x).then(a.y.cmp(&b.y)));
     res
 }

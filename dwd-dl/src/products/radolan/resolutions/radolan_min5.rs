@@ -1,11 +1,9 @@
-use time::{util::days_in_year_month, Date, PrimitiveDateTime};
-
 use crate::{
     base_url,
     dwd_source::{self, Common, UrlTimeIntervall},
     products::radolan::{decode::RadolanFile, RadolanRequest, Record},
     util::{
-        compression::universal::MultiLayerFolder,
+        compression::universal::{Filter, MultiLayerFolder},
         download::download_text,
         file::File,
         interval::Interval,
@@ -56,7 +54,7 @@ impl dwd_source::DwdSource for Recent {
             let date = parse_yyyymmddhhmm(&date).unwrap();
             ts.contains(&date)
         };
-        let filter: Vec<Box<dyn Fn(&str) -> bool>> = vec![Box::new(filter0), Box::new(filter1)];
+        let filter: Vec<Filter> = vec![Box::new(filter0), Box::new(filter1)];
         let folder = MultiLayerFolder::new(file, filter);
         let mut records = Vec::new();
 
@@ -80,10 +78,4 @@ impl dwd_source::DwdSource for Recent {
         }
         records
     }
-}
-
-fn year_month_to_interval(date: Date) -> Interval<PrimitiveDateTime> {
-    let last_month_day = days_in_year_month(date.year(), date.month());
-    let end = date.replace_day(last_month_day).unwrap();
-    Interval::new(date, end).unwrap().into()
 }
