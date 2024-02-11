@@ -9,8 +9,12 @@ use dwd_dl::{
         radolan::{self, formats::RadolanFormatConfig, RadolanRequest, RadolanResolution},
     },
 };
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use specta::Type;
+use tauri::{
+    utils::{ProgressBarState, ProgressBarStatus},
+    Manager, Window,
+};
 use time::format_description::well_known::Iso8601;
 
 #[derive(Deserialize, Type, Debug, Clone)]
@@ -212,6 +216,8 @@ pub fn dwd_request(request: UniversalRequest) -> String {
             let request: RadolanRequest = request.clone().try_into().unwrap();
             let data = radolan::Product.downloadx(request);
 
+            dbg!(&o.format_config);
+
             let formatter = o.format.format_method();
             let response = formatter(data, o.format_config);
 
@@ -236,4 +242,63 @@ pub fn dwd_request(request: UniversalRequest) -> String {
 #[tauri::command]
 pub fn dwd_filename_suggestion(request: UniversalRequest) -> String {
     request.filename()
+}
+
+#[derive(Serialize, Type, Debug, Clone)]
+pub struct ProgressUpdate {
+    pub progress: f32,
+    pub message: Option<String>,
+}
+
+#[tauri::command]
+pub async fn async_test(window: Window, success: bool) -> Result<String, String> {
+    let (s, r) = crossbeam_channel::unbounded();
+
+    let handle = std::thread::spawn(move || test_emit_progress_updates(s));
+
+    std::thread::spawn({
+        let window = window.clone();
+        move || {
+            while let Ok(update) = r.recv() {
+                window
+                    .set_progress_bar(ProgressBarState {
+                        status: Some(ProgressBarStatus::Normal),
+                        progress: Some((update.progress as u32).into()),
+                        unity_uri: None,
+                    })
+                    .unwrap();
+                window.emit("dwd-progress-update", update).unwrap();
+            }
+            println!("done");
+        }
+    });
+
+    handle.join().unwrap();
+
+    window
+        .set_progress_bar(ProgressBarState {
+            status: Some(ProgressBarStatus::None),
+            progress: Some(0),
+            unity_uri: None,
+        })
+        .unwrap();
+    window
+        .request_user_attention(Some(tauri::UserAttentionType::Informational))
+        .unwrap();
+
+    match success {
+        true => Ok("success".to_string()),
+        false => Err("failure".to_string()),
+    }
+}
+
+fn test_emit_progress_updates(s: crossbeam_channel::Sender<ProgressUpdate>) {
+    for i in 0..=100 {
+        s.send(ProgressUpdate {
+            progress: i as f32,
+            message: None,
+        })
+        .unwrap();
+        std::thread::sleep(std::time::Duration::from_millis(100));
+    }
 }

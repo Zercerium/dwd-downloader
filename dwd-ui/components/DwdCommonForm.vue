@@ -2,7 +2,6 @@
 import { save } from "@tauri-apps/plugin-dialog";
 import { toast } from "vue3-toastify";
 import { invoke } from "@tauri-apps/api/core";
-import { Window } from "@tauri-apps/api/window";
 
 const props = defineProps<{
   title: string;
@@ -31,27 +30,9 @@ const format_selected = defineModel<string>("format_selected", {
   required: true,
 });
 
-type ProgressUpdate = {
-  progress: number;
-};
-
-const appWindow = Window.getCurrent();
-const unlisten = appWindow.listen<ProgressUpdate>(
-  "dwd_progress_update",
-  (event) => {
-    // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
-    // event.payload is the payload object
-    progress.value = event.payload.progress;
-  },
-);
-onBeforeUnmount(async () => {
-  await unlisten;
-});
-
 const store = useDwdRequestFormStore();
 
 const processing = ref(false);
-const progress = ref(0);
 
 async function request(f: () => UniversalRequest) {
   processing.value = true;
@@ -165,12 +146,8 @@ async function request(f: () => UniversalRequest) {
           @click.prevent="request(assemble_request)"
         />
       </div>
-      <ProgressBar
-        v-show="processing"
-        class="progress"
-        :value="progress"
-        max="100"
-      ></ProgressBar>
     </div>
   </form>
+  <!-- <DwdProgressDialog v-model:visible="showProgress" v-model:finished="processing" /> -->
+  <DwdProgressDialog :visible="true" :processing="false" />
 </template>
