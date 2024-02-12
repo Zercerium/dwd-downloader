@@ -246,7 +246,7 @@ pub fn dwd_filename_suggestion(request: UniversalRequest) -> String {
 
 #[derive(Serialize, Type, Debug, Clone)]
 pub struct ProgressUpdate {
-    pub progress: f32,
+    pub progress: Option<f32>,
     pub message: Option<String>,
 }
 
@@ -260,10 +260,11 @@ pub async fn async_test(window: Window, success: bool) -> Result<String, String>
         let window = window.clone();
         move || {
             while let Ok(update) = r.recv() {
+                let progress = update.progress.map(|f| f as u64);
                 window
                     .set_progress_bar(ProgressBarState {
                         status: Some(ProgressBarStatus::Normal),
-                        progress: Some((update.progress as u32).into()),
+                        progress,
                         unity_uri: None,
                     })
                     .unwrap();
@@ -295,10 +296,15 @@ pub async fn async_test(window: Window, success: bool) -> Result<String, String>
 fn test_emit_progress_updates(s: crossbeam_channel::Sender<ProgressUpdate>) {
     for i in 0..=100 {
         s.send(ProgressUpdate {
-            progress: i as f32,
+            progress: Some(i as f32),
             message: None,
         })
         .unwrap();
         std::thread::sleep(std::time::Duration::from_millis(100));
     }
+}
+
+#[tauri::command]
+pub fn test_open() {
+    open::that("/Users/nick/Desktop/");
 }

@@ -6,8 +6,8 @@
 
     <div class="card flex justify-center">
       <Dropdown
-        v-model="colorMode.preference"
-        :options="colorModes"
+        v-model="color_mode.preference"
+        :options="color_modes"
         option-label="name"
         option-value="value"
         placeholder="Select Color Mode"
@@ -42,10 +42,10 @@
 </template>
 
 <script setup lang="ts">
-const misc_store = useMiscStore();
+const misc_store = use_misc_store();
 
-const colorMode = useColorMode();
-const colorModes = ref([
+const color_mode = useColorMode();
+const color_modes = ref([
   { name: "System", value: "system" },
   { name: "Light", value: "light" },
   { name: "Dark", value: "dark" },

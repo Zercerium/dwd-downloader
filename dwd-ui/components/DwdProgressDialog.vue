@@ -10,15 +10,7 @@
   >
     <template #container="{ closeCallback }">
       <div
-        class="flex flex-col gap-5 px-10 py-7"
-        style="
-          border-radius: 12px;
-          background-image: radial-gradient(
-            circle at left top,
-            rgb(var(--surface-0)),
-            rgb(var(--surface-50))
-          );
-        "
+        class="flex flex-col gap-5 rounded-xl bg-surface-0 px-10 py-7 text-surface-700 dark:bg-surface-900 dark:text-white/80"
       >
         <div class="flex items-center gap-2">
           <Button

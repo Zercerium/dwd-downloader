@@ -22,7 +22,7 @@ export type PrecipitationResolution = "PrecipitationMin1" | "PrecipitationMin5" 
 
 export type Product = { Climate: ClimateOptions } | { Precipitation: PrecipitationOptions } | { Radolan: RadolanOptions } | { Evaporation: EvaporationOptions }
 
-export type ProgressUpdate = { progress: number; message: string | null }
+export type ProgressUpdate = { progress: number | null; message: string | null }
 
 export type RadolanFormat = "Default" | "SwmmRainfallData"
 

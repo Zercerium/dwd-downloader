@@ -1,6 +1,6 @@
 import { useStorage } from "@vueuse/core";
 
-export const useDwdRequestFormStore = defineStore("dwdRequestForm", () => {
+export const use_dwd_request_form_store = defineStore("dwdRequestForm", () => {
   const storage = useStorage(
     "dwdRequestFormStore",
     {

@@ -1,6 +1,6 @@
 import { Store } from "@tauri-apps/plugin-store";
 
-export const useSettingsStore = defineStore("settings", () => {
+export const use_settings_store = defineStore("settings", () => {
   // if true, check on app startup for updates
   // TODO: only check once a day? for updates
   const auto_update_check: Ref<boolean> = ref(false);

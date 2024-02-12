@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const updateText = ref("");
+const update_text = ref("");
 
-const store = useSettingsStore();
+const store = use_settings_store();
 const date_string = computed(() => {
   if (store.last_update_check) {
     return new Date(store.last_update_check).toLocaleString();
@@ -18,7 +18,7 @@ const date_string = computed(() => {
     </div>
     <div class="">
       <Button label="Check for updates" @click="check_for_updates()" />
-      {{ updateText }}
+      {{ update_text }}
       Last update check on {{ date_string }}
     </div>
   </div>

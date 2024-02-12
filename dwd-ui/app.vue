@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { day_over } from "./utils/update_check";
 
-const store = useSettingsStore();
+const store = use_settings_store();
 if (store.auto_update_check && day_over(store.last_update_check)) {
   check_for_updates(false);
 }

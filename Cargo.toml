@@ -3,6 +3,7 @@ resolver = "2"
 members = ["dwd-dl", "dwd-ui/src-tauri"]
 
 [workspace.dependencies]
+crossbeam-channel = "0.5.11"
 time = { version = "0.3.34", features = [
     "serde",
     "macros",

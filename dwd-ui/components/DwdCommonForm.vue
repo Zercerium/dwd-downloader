@@ -30,7 +30,7 @@ const format_selected = defineModel<string>("format_selected", {
   required: true,
 });
 
-const store = useDwdRequestFormStore();
+const store = use_dwd_request_form_store();
 
 const processing = ref(false);
 

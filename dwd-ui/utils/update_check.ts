@@ -5,7 +5,7 @@ import { check } from "@tauri-apps/plugin-updater";
 export async function check_for_updates(show_message = true) {
   const update = await check();
 
-  const store = useSettingsStore();
+  const store = use_settings_store();
   store.last_update_check = Date.now();
 
   if (!update) {

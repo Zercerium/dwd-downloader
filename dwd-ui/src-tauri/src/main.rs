@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use build_info::build_infos;
-use dwd_command::{async_test, dwd_filename_suggestion, dwd_request};
+use dwd_command::{async_test, dwd_filename_suggestion, dwd_request, test_open};
 use specta::export;
 
 mod build_info;
@@ -29,6 +29,7 @@ fn main() {
             dwd_request,
             dwd_filename_suggestion,
             async_test,
+            test_open
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
