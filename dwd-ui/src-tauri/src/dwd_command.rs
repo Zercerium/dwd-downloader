@@ -12,7 +12,7 @@ use dwd_dl::{
 use serde::{Deserialize, Serialize};
 use specta::Type;
 use tauri::{
-    utils::{ProgressBarState, ProgressBarStatus},
+    window::{ProgressBarState, ProgressBarStatus},
     Manager, Window,
 };
 use time::format_description::well_known::Iso8601;
@@ -265,7 +265,6 @@ pub async fn async_test(window: Window, success: bool) -> Result<String, String>
                     .set_progress_bar(ProgressBarState {
                         status: Some(ProgressBarStatus::Normal),
                         progress,
-                        unity_uri: None,
                     })
                     .unwrap();
                 window.emit("dwd-progress-update", update).unwrap();
@@ -280,7 +279,6 @@ pub async fn async_test(window: Window, success: bool) -> Result<String, String>
         .set_progress_bar(ProgressBarState {
             status: Some(ProgressBarStatus::None),
             progress: Some(0),
-            unity_uri: None,
         })
         .unwrap();
     window

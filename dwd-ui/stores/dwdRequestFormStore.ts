@@ -1,4 +1,5 @@
 import { useStorage } from "@vueuse/core";
+import type { PrecipitationOptions } from "../utils/bindings";
 
 export const use_dwd_request_form_store = defineStore("dwdRequestForm", () => {
   const storage = useStorage(
