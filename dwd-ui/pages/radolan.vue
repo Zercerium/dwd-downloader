@@ -67,12 +67,21 @@ function assemble_data_type(): Product {
               v-model="store.storage.radolan.format_config.utc_to_berlin"
               :binary="true"
             />
-            <label class="ml-2 text-sm">Convert time from UTC to berlin</label>
+            <label
+              v-tooltip="
+                'Can lead to duplicates if data record includes a time change (the time is set back one hour in the fall)'
+              "
+              class="ml-2 text-sm"
+              >Convert time from UTC to berlin
+              <span
+                class="icon-[fa6-solid--triangle-exclamation] relative top-[.125em]"
+              />
+            </label>
           </div>
           <div class="flex items-center">
             <InputNumber
               v-model="store.storage.radolan.format_config.offset"
-              class="w-12 [&_input]:text-center"
+              class="w-16 [&_input]:text-center"
               :pt-options="{ mergeSections: true, mergeProps: true }"
               :min="-128"
               :max="127"
