@@ -1,7 +1,9 @@
+use radolan::Radolan;
+
 use crate::{
     base_url,
     dwd_source::{self, Common, UrlTimeIntervall},
-    products::radolan::{decode::RadolanFile, RadolanRequest, Record},
+    products::radolan::{extract_points, RadolanRequest, Record},
     util::{
         compression::universal::{Filter, MultiLayerFolder},
         download::download_text,
@@ -63,9 +65,9 @@ impl dwd_source::DwdSource for Recent {
             let date = format!("20{}", date);
             let date = parse_yyyymmddhhmm(&date).unwrap();
 
-            let radolan = RadolanFile::new(file.data);
-            let precision = radolan.header.precision;
-            let parsed = radolan.extract_points(&request_data.coordinates);
+            let radolan = Radolan::new(&file.data).unwrap();
+            let precision = radolan.header().precision;
+            let parsed = extract_points(&request_data.coordinates, &radolan);
             let parsed = parsed
                 .into_iter()
                 .map(|(_, v)| v.default_f32(precision))

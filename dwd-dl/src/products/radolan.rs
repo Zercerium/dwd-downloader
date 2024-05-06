@@ -1,3 +1,4 @@
+use radolan::Radolan;
 use time::PrimitiveDateTime;
 
 use crate::{
@@ -5,7 +6,6 @@ use crate::{
     util::{interval::Interval, point::Point},
 };
 
-mod decode;
 pub mod formats;
 mod resolutions;
 
@@ -80,4 +80,14 @@ impl DwdProduct for Product {
             records,
         }
     }
+}
+
+pub fn extract_points(
+    points: &[Point<u16>],
+    file: &Radolan,
+) -> Vec<(Point<u16>, radolan::record::Record)> {
+    points
+        .iter()
+        .map(|p| (*p, file.get_point(p.y, p.x).unwrap()))
+        .collect()
 }
