@@ -2,15 +2,15 @@ use time::{util::days_in_year_month, Date, PrimitiveDateTime};
 
 use crate::{
     base_url,
-    dwd_source::{self, Common, UrlTimeIntervall},
+    dwd_source::{self, UrlTimeIntervall},
     products::evaporation::{decode::decode, EvaporationRequest, Record},
     util::{
-        compression::universal::MultiLayerFolder,
+        compression::universal::{Filter, MultiLayerFolder},
         download::download_text,
         file::File,
         interval::Interval,
-        regex::{extract_d6, extract_d8, links_in_text},
-        time::{parse_yyyymm, parse_yyyymmdd},
+        regex::{extract_d6, links_in_text},
+        time::parse_yyyymm,
     },
 };
 
@@ -37,7 +37,7 @@ impl dwd_source::DwdSource for MonthlyR {
                 url: format!("{}{}", url, link),
                 interval: Some({
                     let date = extract_d6(link).unwrap();
-                    let date = parse_yyyymm(&date).unwrap();
+                    let date = parse_yyyymm(date).unwrap();
                     year_month_to_interval(date)
                 }),
             })
@@ -49,7 +49,7 @@ impl dwd_source::DwdSource for MonthlyR {
 
     fn extract_data(&self, request_data: &Self::RequestData, file: File) -> Vec<Self::Record> {
         let filter0 = |_: &str| true;
-        let filter: Vec<Box<dyn Fn(&str) -> bool>> = vec![Box::new(filter0)];
+        let filter: Vec<Filter> = vec![Box::new(filter0)];
         let folder = MultiLayerFolder::new(file, filter);
         let mut records = Vec::new();
 

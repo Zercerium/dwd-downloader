@@ -1,11 +1,12 @@
+use radolan::Radolan;
 use time::{util::days_in_year_month, Date, PrimitiveDateTime};
 
 use crate::{
     base_url,
     dwd_source::{self, Common, UrlTimeIntervall},
-    products::radolan::{decode::RadolanFile, RadolanRequest, Record},
+    products::radolan::{extract_points, RadolanRequest, Record},
     util::{
-        compression::universal::MultiLayerFolder,
+        compression::universal::{Filter, MultiLayerFolder},
         download::download_text,
         file::File,
         interval::Interval,
@@ -41,13 +42,13 @@ impl dwd_source::DwdSource for Historical {
         for url in urls {
             let html = download_text(&url, None);
             let regex = r"SF-?\d{6}.tar(.gz)?";
-            let current_links = links_in_text(&html, &regex);
+            let current_links = links_in_text(&html, regex);
 
             links.extend(current_links.iter().map(|link| UrlTimeIntervall {
                 url: format!("{}{}", url, link),
                 interval: Some({
                     let date = extract_d6(link).unwrap();
-                    let date = parse_yyyymm(&date).unwrap();
+                    let date = parse_yyyymm(date).unwrap();
                     year_month_to_interval(date)
                 }),
             }));
@@ -58,14 +59,14 @@ impl dwd_source::DwdSource for Historical {
 
     fn extract_data(&self, request_data: &Self::RequestData, file: File) -> Vec<Self::Record> {
         let filter0 = |_: &str| true;
-        let ts = request_data.common().timespan.clone();
+        let ts = request_data.common().timespan;
         let filter1 = move |s: &str| {
             let date = extract_d10(s).unwrap();
             let date = format!("20{}", date);
             let date = parse_yyyymmddhhmm(&date).unwrap();
             ts.contains(&date)
         };
-        let filter: Vec<Box<dyn Fn(&str) -> bool>> = vec![Box::new(filter0), Box::new(filter1)];
+        let filter: Vec<Filter> = vec![Box::new(filter0), Box::new(filter1)];
         let folder = MultiLayerFolder::new(file, filter);
         let mut records = Vec::new();
 
@@ -74,9 +75,9 @@ impl dwd_source::DwdSource for Historical {
             let date = format!("20{}", date);
             let date = parse_yyyymmddhhmm(&date).unwrap();
 
-            let radolan = RadolanFile::new(file.data);
-            let precision = radolan.header.precision;
-            let parsed = radolan.extract_points(&request_data.coordinates);
+            let radolan = Radolan::new(&file.data).unwrap();
+            let precision = radolan.header().precision;
+            let parsed = extract_points(&request_data.coordinates, &radolan);
             let parsed = parsed
                 .into_iter()
                 .map(|(_, v)| v.default_f32(precision))
@@ -97,7 +98,7 @@ impl dwd_source::DwdSource for Recent {
     type Record = Record;
     type RequestData = RadolanRequest;
 
-    fn urls(&self, request: &Self::RequestData) -> Vec<UrlTimeIntervall> {
+    fn urls(&self, _request: &Self::RequestData) -> Vec<UrlTimeIntervall> {
         let url = format!(
             "{}/climate_environment/CDC/grids_germany/daily/radolan/recent/bin/",
             base_url()
@@ -105,7 +106,7 @@ impl dwd_source::DwdSource for Recent {
 
         let html = download_text(&url, None);
         let regex = r"raa01-sf_10000-\d{10}-dwd---bin.gz";
-        let links = links_in_text(&html, &regex);
+        let links = links_in_text(&html, regex);
 
         let links = links
             .iter()
@@ -126,7 +127,7 @@ impl dwd_source::DwdSource for Recent {
 
     fn extract_data(&self, request_data: &Self::RequestData, file: File) -> Vec<Self::Record> {
         let filter0 = |_: &str| true;
-        let filter: Vec<Box<dyn Fn(&str) -> bool>> = vec![Box::new(filter0)];
+        let filter: Vec<Filter> = vec![Box::new(filter0)];
         let folder = MultiLayerFolder::new(file, filter);
         let mut records = Vec::new();
 
@@ -135,9 +136,9 @@ impl dwd_source::DwdSource for Recent {
             let date = format!("20{}", date);
             let date = parse_yyyymmddhhmm(&date).unwrap();
 
-            let radolan = RadolanFile::new(file.data);
-            let precision = radolan.header.precision;
-            let parsed = radolan.extract_points(&request_data.coordinates);
+            let radolan = Radolan::new(&file.data).unwrap();
+            let precision = radolan.header().precision;
+            let parsed = extract_points(&request_data.coordinates, &radolan);
             let parsed = parsed
                 .into_iter()
                 .map(|(_, v)| v.default_f32(precision))

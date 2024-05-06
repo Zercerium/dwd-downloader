@@ -1,9 +1,10 @@
 [workspace]
 resolver = "2"
-members = ["dwd-dl", "dwd-ui/src-tauri"]
+members = ["dwd-dl", "dwd-ui/src-tauri", "dwd-dl/crates/radolan"]
 
 [workspace.dependencies]
-time = { version = "0.3.34", features = [
+crossbeam-channel = "0.5.12"
+time = { version = "0.3.36", features = [
     "serde",
     "macros",
     "parsing",

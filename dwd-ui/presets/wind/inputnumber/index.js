@@ -1,10 +1,10 @@
 export default {
     root: ({ props, parent }) => ({
         class: [
-            // Display
+            // Flex
             'inline-flex',
-
             { 'flex-col': props.showButtons && props.buttonLayout == 'vertical' },
+            { 'flex-1 w-[1%]': parent.instance.$name == 'InputGroup' },
 
             //Sizing
             { '!w-16': props.showButtons && props.buttonLayout == 'vertical' },
@@ -19,11 +19,11 @@ export default {
         ]
     }),
     input: {
-        root: ({ parent }) => ({
+        root: ({ parent, context }) => ({
             class: [
-                 // Display
+                // Display
                 'flex flex-auto',
-                'w-full',
+                 'w-full',
 
                 //Text
                 'sm:text-sm',
@@ -43,13 +43,21 @@ export default {
                 'text-surface-900 dark:text-surface-0',
                 'placeholder:text-surface-400 dark:placeholder:text-surface-500',
                 'bg-surface-0 dark:bg-surface-900',
-                { 'border-r border-surface-300 dark:border-surface-700': parent.props.showButtons && parent.props.buttonLayout == 'stacked' },
-                { 'border-x border-surface-300 dark:border-surface-700': parent.props.showButtons && parent.props.buttonLayout == 'horizontal' },
-                { 'border-y border-surface-300 dark:border-surface-700': parent.props.showButtons && parent.props.buttonLayout == 'vertical' },
+                { 'border-r': parent.props.showButtons && parent.props.buttonLayout == 'stacked' },
+                { 'border-x': parent.props.showButtons && parent.props.buttonLayout == 'horizontal' },
+                { 'border-y': parent.props.showButtons && parent.props.buttonLayout == 'vertical' },
+
+                { 'border-surface-300 dark:border-surface-700': !parent.props.invalid },
+
+                // Invalid State
+                { 'border border-red-500 dark:border-red-400': parent.props.invalid },
 
                 // States
                 'outline-none focus:ring-primary-600 dark:focus:ring-primary-500',
                 'focus:outline-none focus:outline-offset-0 focus:ring-2 focus:ring-inset focus:ring-primary-600 dark:focus:ring-primary-500',
+
+                // Filled State *for FloatLabel
+                { filled: parent.instance?.$name == 'FloatLabel' && context.filled },
 
                 //Position
                 { 'order-2': parent.props.buttonLayout == 'horizontal' || parent.props.buttonLayout == 'vertical' }

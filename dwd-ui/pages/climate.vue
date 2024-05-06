@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const store = useDwdRequestFormStore();
+const store = use_dwd_request_form_store();
 
 const resolutions: { label: string; idStr: ClimateResolution }[] = [
   { label: "Daily", idStr: "ClimateDaily" },

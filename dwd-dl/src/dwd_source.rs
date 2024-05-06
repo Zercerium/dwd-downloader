@@ -3,7 +3,7 @@ use std::fmt::Debug;
 use time::PrimitiveDateTime;
 
 use crate::util::{
-    download::{create_client, download_body, download_file},
+    download::{create_client, download_file},
     file::File,
     interval::{Interval, Overlaps},
 };
@@ -79,7 +79,7 @@ pub trait DwdProduct {
             if last_timestamp.is_some_and(|l| l >= request.common().timespan.end) {
                 break;
             }
-            let current_records = source.send(&request);
+            let current_records = source.send(request);
             let mut iter = current_records
                 .into_iter()
                 .skip_while(|d| match last_timestamp {

@@ -8,6 +8,9 @@
 		"files.associations": {
 			"*.css": "tailwindcss"
 		},
+		"eslint.workingDirectories": [
+			"./dwd-ui",
+		],
 		"workbench.colorCustomizations": {
 			"activityBar.activeBackground": "#93e6fc",
 			"activityBar.background": "#93e6fc",

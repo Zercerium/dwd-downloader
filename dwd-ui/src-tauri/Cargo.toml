@@ -1,35 +1,32 @@
 [package]
 name = "dwd-ui"
-version = "0.1.0-alpha.0"
+version = "0.1.0-alpha.1"
 description = "Download weather data from DWD with ease"
 authors = ["Nick Kotsakidis"]
-repository = ""
+repository = "https://github.com/Zercerium/dwd-downloader/"
 edition = "2021"
 build = "build.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-shadow-rs = "0.26.1"
-
-tauri-build = { version = "2.0.0-beta.0", features = [] }
+shadow-rs = { version = "0.26.1", default-features = false }
+tauri-build = { version = "2.0.0-beta.6", features = [] }
 
 [dependencies]
+crossbeam-channel = { workspace = true }
 dwd-dl = { path = "../../dwd-dl", features = ["specta"] }
-serde = { version = "1.0.196", features = ["derive"] }
+open = "5.1.2"
+serde = { version = "1.0.197", features = ["derive"] }
 serde_json = "1.0"
-shadow-rs = "0.26.1"
-specta = { version = "2.0.0-rc.7", features = ["typescript", "export"] }
-tauri = { version = "2.0.0-beta.1", features = [] }
-tauri-plugin-dialog = "2.0.0-beta.0"
-tauri-plugin-fs = "2.0.0-beta.0"
-tauri-plugin-process = "2.0.0-beta.0"
-tauri-plugin-shell = "2.0.0-beta.0"
-tauri-plugin-store = "2.0.0-beta.0"
-tauri-plugin-updater = "2.0.0-beta.0"
-tauri-plugin-window-state = "2.0.0-beta.0"
+shadow-rs = { version = "0.27.1", default-features = false }
+specta = { version = "2.0.0-rc.9", features = ["typescript", "export"] }
+tauri = { version = "2.0.0-beta.14", features = [] }
+tauri-plugin-dialog = "2.0.0-beta.4"
+tauri-plugin-fs = "2.0.0-beta.4"
+tauri-plugin-process = "2.0.0-beta.3"
+tauri-plugin-shell = "2.0.0-beta.3"
+tauri-plugin-store = "2.0.0-beta.4"
+tauri-plugin-updater = "2.0.0-beta.3"
+tauri-plugin-window-state = "2.0.0-beta.4"
 time = { workspace = true }
-
-[features]
-# this feature is used for production builds or when `devPath` points to the filesystem
-# DO NOT REMOVE!!
-custom-protocol = ["tauri/custom-protocol"]
+tokio = { version = "1.37.0", features = ["macros", "rt-multi-thread"] }

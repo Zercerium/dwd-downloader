@@ -65,6 +65,11 @@ const navigation = ref([
     route: "/evaporation",
   },
   {
+    label: "CSV",
+    icon: "icon-[fa6-solid--file-csv]",
+    route: "/csv",
+  },
+  {
     label: "Settings",
     icon: "icon-[fa6-solid--gear]",
     route: "/settings",

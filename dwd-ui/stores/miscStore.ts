@@ -1,7 +1,7 @@
 import { getTauriVersion, getVersion } from "@tauri-apps/api/app";
 import { invoke } from "@tauri-apps/api/core";
 
-export const useMiscStore = defineStore("misc_store", () => {
+export const use_misc_store = defineStore("misc_store", () => {
   const tauri_version: Ref<string> = ref("unknown");
   const app_version: Ref<string> = ref("unknown");
   const rust_version: Ref<string> = ref("unknown");

@@ -4,7 +4,6 @@ use bytes::Bytes;
 use tar::{Archive, Entry};
 
 pub struct Tarball {
-    data: Bytes,
     entries: Vec<TarEntry>,
 }
 
@@ -17,7 +16,7 @@ impl Tarball {
             entries.push(TarEntry::from_tar_entry(entry, data.clone()));
         }
         entries.sort_unstable_by(|a, b| a.filename.cmp(&b.filename));
-        Self { data, entries }
+        Self { entries }
     }
 
     pub fn entries(&self) -> &[TarEntry] {
@@ -27,19 +26,12 @@ impl Tarball {
 
 pub struct TarEntry {
     pub filename: String,
-    offset: usize,
-    size: usize,
     pub data: Bytes,
 }
 
 impl TarEntry {
-    pub fn new(filename: String, offset: usize, size: usize, data: Bytes) -> Self {
-        Self {
-            filename,
-            offset,
-            size,
-            data,
-        }
+    pub fn new(filename: String, data: Bytes) -> Self {
+        Self { filename, data }
     }
 
     pub fn from_tar_entry<'a, R>(entry: Entry<'a, R>, data: Bytes) -> Self
@@ -50,6 +42,6 @@ impl TarEntry {
         let offset = entry.raw_file_position() as usize;
         let length = entry.header().size().unwrap() as usize;
         let data = data.slice(offset..offset + length);
-        Self::new(name, offset, length, data)
+        Self::new(name, data)
     }
 }

@@ -1,0 +1,14 @@
+[package]
+name = "radolan"
+version = "0.0.1"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/Zercerium/dwd-downloader/tree/main/dwd-dl/crates/radolan"
+keywords = ["radolan", "dwd"]
+exclude = ["/tests"]
+description = "Lib to read Radolan files, see Readme for more information. Supported Products: YW, RW, SF"
+
+[dependencies]
+nom = "7.1.3"
+thiserror = "1.0.59"
+time.workspace = true

@@ -13,5 +13,13 @@ module.exports = {
   rules: {
     "vue/prop-name-casing": ["warn", "snake_case"],
     "prettier/prettier": ["error", { endOfLine: "auto" }],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        selector: "variable",
+        format: ["snake_case"],
+        leadingUnderscore: "allow",
+      },
+    ],
   },
 };
