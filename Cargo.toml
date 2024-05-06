@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["dwd-dl", "dwd-ui/src-tauri"]
+members = ["dwd-dl", "dwd-ui/src-tauri", "dwd-dl/crates/radolan"]
 
 [workspace.dependencies]
 crossbeam-channel = "0.5.12"
